@@ -1,0 +1,50 @@
+template(name='layout')
+	+menu
+	+yield
+
+template(name='menu')
+	.navbar-fixed: nav.green: .nav-wrapper
+		ul.left
+			li: a Beranda
+			li: a Panduan
+		a.brand-logo.center SIPD
+		ul.right
+			li: a Login
+			li: a Register
+	ul.fixed.side-nav
+		li: a Pertama
+		li: a Kedua
+
+template(name='home')
+	h5 Beranda
+
+template(name='titik')
+	#peta
+	br
+	.container
+		.right.btn#add Tambah
+		unless showForm
+			br
+			table
+				thead
+					tr
+						each val in heads
+							th {{startCase val}}
+				tbody
+					each val in rows
+						tr
+							td= val.kelompok
+							td= val.nama
+							td= val.bentuk
+							td= val.alamat
+							td= val.kondisi
+		if showForm
+			br
+			br
+			+quickForm(
+				collection = coll.titik
+				schema = coll.titik._c2._simpleSchema
+				type = formType
+				id = 'titikForm'
+				doc = doc
+			)
