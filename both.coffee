@@ -5,6 +5,7 @@ Router.route '/',
 	action: -> this.render 'home'
 
 @coll = {}; @schema = {}
+
 _.map (_.keys fasilitas), (i) ->
 	schema[i] = {}
 	_.map fasilitas[i], (j) ->
@@ -18,6 +19,6 @@ _.map ['titik', 'area', 'kurva'], (i) ->
 		remove: -> true
 
 _.map ['titik'], (i) ->
-	Router.route '/'+i+'/:type?/:id?',
+	Router.route '/'+i+'/:type?',
 		action: -> this.render i
 		waitOn: -> Meteor.subscribe 'coll', i, {}, {}

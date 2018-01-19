@@ -12,6 +12,7 @@ template(name='menu')
 			li: a Login
 			li: a Register
 	ul.fixed.side-nav
+		li.grey.lighten-2: a Pilihan Urusan
 		each val in menus
 			li: a(href='/titik/{{val}}')= startCase(val)
 
@@ -31,13 +32,10 @@ template(name='titik')
 						each val in heads
 							th {{startCase val}}
 				tbody
-					each val in rows
+					each i in rows
 						tr
-							td= val.kelompok
-							td= val.nama
-							td= val.bentuk
-							td= val.alamat
-							td= val.kondisi
+							each j in i
+								td= j
 		if showForm
 			br
 			br
@@ -45,6 +43,6 @@ template(name='titik')
 				collection = coll.titik
 				schema = schema
 				type = formType
-				id = 'titikForm'
+				id = 'formTitik'
 				doc = doc
 			)
