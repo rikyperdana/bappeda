@@ -12,8 +12,8 @@ template(name='menu')
 			li: a Login
 			li: a Register
 	ul.fixed.side-nav
-		li: a Pertama
-		li: a Kedua
+		each val in menus
+			li: a(href='/titik/{{val}}')= startCase(val)
 
 template(name='home')
 	h5 Beranda
@@ -43,7 +43,7 @@ template(name='titik')
 			br
 			+quickForm(
 				collection = coll.titik
-				schema = coll.titik._c2._simpleSchema
+				schema = schema
 				type = formType
 				id = 'titikForm'
 				doc = doc

@@ -5,20 +5,13 @@ Router.route '/',
 	action: -> this.render 'home'
 
 @coll = {}; @schema = {}
-
-schema.titik =
-	kelompok: type: String
-	nama: type: String
-	bentuk: type: String
-	alamat: type: String
-	kondisi: type: Number
-	latlng: type: Object, optional: true
-	'latlng.lat': type: Number, decimal: true
-	'latlng.lng': type: Number, decimal: true
+_.map (_.keys fasilitas), (i) ->
+	schema[i] = {}
+	_.map fasilitas[i], (j) ->
+		schema[i][j] = type: String
 
 _.map ['titik', 'area', 'kurva'], (i) ->
 	coll[i] = new Meteor.Collection i
-	coll[i].attachSchema new SimpleSchema schema[i]
 	coll[i].allow
 		insert: -> true
 		update: -> true
