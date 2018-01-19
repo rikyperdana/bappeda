@@ -7,4 +7,5 @@ if Meteor.isClient
 				geocode.getLocation 'jln. tamansari', (location) ->
 					res = location.results
 					if res then doc.latlng = res[0].geometry.location
+					doc.kelompok = currentPar 'type'
 					self.result doc

@@ -16,8 +16,10 @@ if Meteor.isClient
 			layers: [topo]
 
 	Template.titik.helpers
-		heads: -> _.tail _.keys schema[currentPar 'type']
-		rows: -> _.map coll.titik.find().fetch(), (i) -> _.tail _.tail _.values i
+		heads: -> _.keys schema[currentPar 'type']
+		rows: -> _.map coll.titik.find().fetch(), (i) ->
+			len = (_.values fasilitas[currentPar 'type']).length
+			(_.values i)[1..len]
 		formType: -> if (currentPar 'id') then 'update' else 'insert'
 		schema: -> new SimpleSchema schema[currentPar 'type']
 		showForm: -> Session.get 'showForm'

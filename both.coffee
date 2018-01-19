@@ -21,4 +21,6 @@ _.map ['titik', 'area', 'kurva'], (i) ->
 _.map ['titik'], (i) ->
 	Router.route '/'+i+'/:type?',
 		action: -> this.render i
-		waitOn: -> Meteor.subscribe 'coll', i, {}, {}
+		waitOn: -> if Meteor.isClient
+			sel = kelompok: currentPar 'type'
+			Meteor.subscribe 'coll', i, sel, {}
