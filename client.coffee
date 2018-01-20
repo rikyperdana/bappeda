@@ -15,12 +15,17 @@ if Meteor.isClient
 			layer.bindPopup 'Kab: ' + _.startCase feature.properties.wil
 		riau = L.geoJson.ajax '/maps/riau.geojson',
 			style: style, onEachFeature: onEachFeature
-		markers = L.layerGroup _.map coll.titik.find().fetch(), (i) ->
-			L.marker lat: 0.5, lng: 101
+		source = coll.titik.find(kelompok: currentPar 'type').fetch()
+		markers = L.layerGroup _.map source, (i) -> if i.latlng
+			content = ''
+			for key, val of _.pick i, fasilitas[currentPar 'type']
+				content += "<b>#{_.startCase key} :</b> #{_.startCase val}</br>"
+			marker = L.marker(i.latlng).bindPopup content
 		map = L.map 'peta',
 			center: [0.5, 101]
 			zoom: 8
 			zoomControl: false
+			attributionControl: false
 			layers: [topo, riau, markers]
 
 	Template.titik.helpers
