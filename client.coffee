@@ -8,12 +8,20 @@ if Meteor.isClient
 		menus: -> _.keys fasilitas
 
 	Template.titik.onRendered ->
+		L.Icon.Default.imagePath = '/packages/bevanhunt_leaflet/images/'
 		topo = L.tileLayer.provider 'OpenTopoMap'
+		style = color: 'white', weight: 2
+		onEachFeature = (feature, layer) ->
+			layer.bindPopup 'Kab: ' + _.startCase feature.properties.wil
+		riau = L.geoJson.ajax '/maps/riau.geojson',
+			style: style, onEachFeature: onEachFeature
+		markers = L.layerGroup _.map coll.titik.find().fetch(), (i) ->
+			L.marker lat: 0.5, lng: 101
 		map = L.map 'peta',
 			center: [0.5, 101]
 			zoom: 8
 			zoomControl: false
-			layers: [topo]
+			layers: [topo, riau, markers]
 
 	Template.titik.helpers
 		heads: -> _.keys schema[currentPar 'type']
