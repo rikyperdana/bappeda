@@ -40,3 +40,12 @@ if Meteor.isClient
 	Template.titik.events
 		'click #add': ->
 			Session.set 'showForm', not Session.get 'showForm'
+		'dblclick #remove': (event) ->
+			node = event.currentTarget.attributes.data.nodeValue
+			[nama, ...] = _.split node, ','
+			id = coll.titik.findOne(nama: nama)._id
+			dialog =
+				title: 'Hapus Data?'
+				message: 'Yakin hapus data ini?'
+			new Confirmation dialog, (ok) -> if ok
+				Meteor.call 'remove', 'titik', id

@@ -31,11 +31,13 @@ template(name='titik')
 					tr
 						each val in heads
 							th {{startCase val}}
+						th Hapus
 				tbody
 					each i in rows
 						tr
 							each j in i
 								td= j
+							td#remove(data=i): a Hapus
 		if showForm
 			br
 			br
