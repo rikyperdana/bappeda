@@ -30,14 +30,13 @@ template(name='titik')
 				thead
 					tr
 						each val in heads
-							th {{startCase val}}
+							th= startCase(val)
 						th Hapus
 				tbody
 					each i in rows
 						tr
-							each j in i
-								td= j
-							td#remove(data=i): a Hapus
+							each j in heads
+								td {{prop i j}}
 		if showForm
 			br
 			br

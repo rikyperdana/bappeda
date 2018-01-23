@@ -3,6 +3,7 @@ if Meteor.isClient
 	Template.registerHelper 'startCase', (val) -> _.startCase val
 	Template.registerHelper 'coll', -> coll
 	Template.registerHelper 'schema', (val) -> new SimpleSchema schema[val]
+	Template.registerHelper 'prop', (obj, prop) -> obj[prop]
 
 	Template.menu.helpers
 		menus: -> _.keys fasilitas
@@ -30,9 +31,7 @@ if Meteor.isClient
 
 	Template.titik.helpers
 		heads: -> _.keys schema[currentPar 'type']
-		rows: -> _.map coll.titik.find().fetch(), (i) ->
-			len = (_.values fasilitas[currentPar 'type']).length
-			(_.values i)[1..len]
+		rows: -> coll.titik.find().fetch()
 		formType: -> if (currentPar 'id') then 'update' else 'insert'
 		schema: -> new SimpleSchema schema[currentPar 'type']
 		showForm: -> Session.get 'showForm'
