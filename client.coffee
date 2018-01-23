@@ -40,9 +40,8 @@ if Meteor.isClient
 		'click #add': ->
 			Session.set 'showForm', not Session.get 'showForm'
 		'dblclick #remove': (event) ->
-			node = event.currentTarget.attributes.data.nodeValue
-			[nama, ...] = _.split node, ','
-			id = coll.titik.findOne(nama: nama)._id
+			data = event.currentTarget.attributes.data.nodeValue
+			id = coll.titik.findOne(nama: data)._id
 			dialog =
 				title: 'Hapus Data?'
 				message: 'Yakin hapus data ini?'
