@@ -19,7 +19,8 @@ _.map ['titik', 'area', 'kurva'], (i) ->
 		remove: -> true
 
 _.map ['titik'], (i) ->
-	Router.route '/'+i+'/:type?',
+	Router.route '/'+i+'/:type',
+		name: 'titik'
 		action: -> this.render i
 		waitOn: -> if Meteor.isClient
 			sel = kelompok: currentPar 'type'

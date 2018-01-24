@@ -9,8 +9,11 @@ template(name='menu')
 			li: a Panduan
 		a.brand-logo.center SIPD
 		ul.right
-			li: a Login
-			li: a Register
+			unless currentUser
+				li: a Login
+			else
+				li: a= currentUser
+				li: a Logout
 	ul.fixed.side-nav
 		li.grey.lighten-2: a Pilihan Urusan
 		each val in menus
@@ -26,7 +29,7 @@ template(name='titik')
 		.right.btn#add Tambah
 		unless showForm
 			br
-			table
+			table.bordered
 				thead
 					tr
 						each val in heads
@@ -36,7 +39,7 @@ template(name='titik')
 					each i in rows
 						tr
 							each j in heads
-								td {{prop i j}}
+								td {{startCase (prop i j)}}
 							td: a#remove(data=i._id) Hapus
 		if showForm
 			br

@@ -5,6 +5,7 @@ if Meteor.isClient
 			insert: (doc) ->
 				self = this
 				geocode.getLocation doc.alamat, (location) ->
+					doc[key] = _.lowerCase val for key, val of doc
 					res = location.results
 					if res
 						doc.latlng = res[0].geometry.location
