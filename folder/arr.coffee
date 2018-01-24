@@ -13,3 +13,10 @@ defaults = ['nama', 'alamat', 'bentuk', 'kondisi']
 
 _.map (_.keys fasilitas), (i) ->
 	fasilitas[i] = [defaults..., fasilitas[i]...]
+
+makeOpts = (arr) -> _.map arr, (i) -> value: i, label: _.startCase i
+
+@selects =
+	pendidikan:
+		bentuk: makeOpts ['sd', 'smp', 'sma']
+	kondisi: makeOpts ['baik', 'cukup baik']

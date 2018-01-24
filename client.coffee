@@ -17,9 +17,8 @@ if Meteor.isClient
 		riau = L.geoJson.ajax '/maps/riau.geojson',
 			style: style, onEachFeature: onEachFeature
 		source = coll.titik.find().fetch()
-		byBentuk = _.map (_.uniqBy source, 'bentuk'), (i) -> i.bentuk
-		byKondisi = _.map (_.uniqBy source, 'kondisi'), (i) -> i.kondisi
-		categories = [byBentuk..., byKondisi...]
+		select = (type) -> _.map (_.uniqBy source, type), (i) -> i[type]
+		categories = [select('bentuk')..., select('kondisi')...]
 		titles = _.map categories, (i) -> _.startCase i
 		markers = _.zipObject titles, _.map categories, (i) ->
 			filter = _.filter source, (j) -> _.includes [j.bentuk, j.kondisi], i
