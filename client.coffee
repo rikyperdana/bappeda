@@ -16,28 +16,29 @@ if Meteor.isClient
 			layer.bindPopup 'Kab: ' + _.startCase feature.properties.wil
 		riau = L.geoJson.ajax '/maps/riau.geojson',
 			style: style, onEachFeature: onEachFeature
-		source = coll.titik.find().fetch()
+		source = _.filter coll.titik.find().fetch(), (i) -> i.latlng
 		select = (type) -> _.map (_.uniqBy source, type), (i) -> i[type]
 		categories = [select('bentuk')..., select('kondisi')...]
 		titles = _.map categories, (i) -> _.startCase i
+		content = (obj) ->
+			string = ''
+			for key, val of _.pick obj, fasilitas[currentPar 'type']
+				string += "<b>#{_.startCase key}: </b>#{_.startCase val}</br>"
+			string
 		markers = _.zipObject titles, _.map categories, (i) ->
-			filter = _.filter source, (j) ->
-				a = -> _.includes [j.bentuk, j.kondisi], i
-				b = -> j.latlng
-				a() and b()
-			filter and L.layerGroup _.map filter, (j) -> if j.latlng
-				content = ''
-				for key, val of _.pick j, fasilitas[currentPar 'type']
-					content += "<b>#{_.startCase key}: </b>#{_.startCase val}</br>"
-				L.marker(j.latlng).bindPopup content
+			filter = _.filter source, (j) -> _.includes [j.bentuk, j.kondisi], i
+			filter and L.layerGroup _.map filter, (j) ->
+				L.marker(j.latlng).bindPopup content j
+		allMarkers = L.layerGroup _.map source, (i) ->
+			L.marker(i.latlng).bindPopup content i
 		map = L.map 'peta',
 			center: [0.5, 101]
 			zoom: 8
 			zoomControl: false
 			attributionControl: false
-			layers: [topo, riau, _.values(markers)...]
+			layers: [topo, riau, allMarkers]
 		baseMaps = Topo: topo, Esri: L.tileLayer.provider 'Esri.WorldImagery'
-		overLays = _.assign markers, Riau: riau
+		overLays = _.assign markers, Semua: allMarkers
 		L.control.layers(baseMaps, overLays, collapsed: false).addTo map
 
 	Template.titik.helpers
