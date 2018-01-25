@@ -21,8 +21,11 @@ if Meteor.isClient
 		categories = [select('bentuk')..., select('kondisi')...]
 		titles = _.map categories, (i) -> _.startCase i
 		markers = _.zipObject titles, _.map categories, (i) ->
-			filter = _.filter source, (j) -> _.includes [j.bentuk, j.kondisi], i
-			L.layerGroup _.map filter, (j) -> if j.latlng
+			filter = _.filter source, (j) ->
+				a = -> _.includes [j.bentuk, j.kondisi], i
+				b = -> j.latlng
+				a() and b()
+			filter and L.layerGroup _.map filter, (j) -> if j.latlng
 				content = ''
 				for key, val of _.pick j, fasilitas[currentPar 'type']
 					content += "<b>#{_.startCase key}: </b>#{_.startCase val}</br>"
@@ -32,7 +35,7 @@ if Meteor.isClient
 			zoom: 8
 			zoomControl: false
 			attributionControl: false
-			layers: [topo, riau]
+			layers: [topo, riau, _.values(markers)...]
 		baseMaps = Topo: topo, Esri: L.tileLayer.provider 'Esri.WorldImagery'
 		overLays = _.assign markers, Riau: riau
 		L.control.layers(baseMaps, overLays, collapsed: false).addTo map

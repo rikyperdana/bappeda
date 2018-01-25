@@ -7,18 +7,15 @@ Router.route '/',
 @coll = {}; @schema = {}
 
 _.map (_.keys fasilitas), (i) ->
-	schema[i] = {}
-	_.map fasilitas[i], (j) ->
+	schema[i] = {}; _.map fasilitas[i], (j) ->
 		schema[i][j] = type: String
 		schema[i].bentuk = type: String, autoform: options: selects[i]?.bentuk
 		schema[i].kondisi = type: String, autoform: options: selects.kondisi
 
 _.map ['titik', 'area', 'kurva'], (i) ->
 	coll[i] = new Meteor.Collection i
-	coll[i].allow
-		insert: -> true
-		update: -> true
-		remove: -> true
+	arr = ['insert', 'update', 'remove']
+	coll[i].allow _.zipObject arr, _.map arr, (i) -> -> true
 
 _.map ['titik'], (i) ->
 	Router.route '/'+i+'/:type',
