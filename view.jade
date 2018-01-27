@@ -7,13 +7,13 @@ template(name='menu')
 		ul.left
 			li: a Beranda
 			li: a Panduan
-		a.brand-logo.center SIPD
+		a.brand-logo.center BAPPEDA
 		ul.right
 			unless currentUser
-				li: a Login
+				li: a(href='/login') Login
 			else
-				li: a= currentUser
-				li: a Logout
+				li: a= currentUser.username
+				li: a#logout Logout
 	ul.fixed.side-nav
 		li.grey.lighten-2: a Pilihan Urusan
 		each val in menus
@@ -35,7 +35,8 @@ template(name='titik')
 				option(value='') Pilih Kondisi
 				each i in filter 'kondisi'
 					option(value=i)= startCase(i)
-			.col.m2: .right.btn#add Tambah
+			if currentUser
+				.col.m2: .right.btn#add Tambah
 		unless showForm
 			br
 			table.bordered
@@ -43,13 +44,15 @@ template(name='titik')
 					tr
 						each val in heads
 							th= startCase(val)
-						th Hapus
+						if currentUser
+							th Hapus
 				tbody
 					each i in rows
 						tr
 							each j in heads
 								td {{startCase (prop i j)}}
-							td: a#remove(data=i._id) Hapus
+							if currentUser
+								td: a#remove(data=i._id) Hapus
 		if showForm
 			br
 			br
@@ -60,3 +63,11 @@ template(name='titik')
 				id = 'formTitik'
 				doc = doc
 			)
+
+template(name='login'): .container
+	h5 Login Bappeda
+	form
+		input.white-text(name='username' placeholder='Username')
+		input.white-text(name='password' placeholder='Password' type='password')
+		input.btn(type='submit' value='Masuk')
+

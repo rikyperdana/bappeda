@@ -17,10 +17,13 @@ _.map ['titik', 'area', 'kurva'], (i) ->
 	arr = ['insert', 'update', 'remove']
 	coll[i].allow _.zipObject arr, _.map arr, (i) -> -> true
 
-_.map ['titik'], (i) ->
-	Router.route '/'+i+'/:type',
-		name: 'titik'
+Router.route '/titik/:type',
+	name: 'titik'
+	action: -> this.render 'titik'
+	waitOn: -> if Meteor.isClient
+		sel = kelompok: currentPar 'type'
+		Meteor.subscribe 'coll', 'titik', sel, {}
+
+_.map ['login'], (i) ->
+	Router.route '/' + i,
 		action: -> this.render i
-		waitOn: -> if Meteor.isClient
-			sel = kelompok: currentPar 'type'
-			Meteor.subscribe 'coll', i, sel, {}
