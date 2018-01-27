@@ -26,7 +26,16 @@ template(name='titik')
 	#peta
 	br
 	.container
-		.right.btn#add Tambah
+		.row
+			.col.m5: .input-field: select#bentuk
+				option(value='') Pilih Bentuk
+				each i in filter 'bentuk'
+					option(value=i)= startCase(i)
+			.col.m5: .input-field: select#kondisi
+				option(value='') Pilih Kondisi
+				each i in filter 'kondisi'
+					option(value=i)= startCase(i)
+			.col.m2: .right.btn#add Tambah
 		unless showForm
 			br
 			table.bordered

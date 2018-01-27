@@ -9,6 +9,7 @@ if Meteor.isClient
 		menus: -> _.keys fasilitas
 
 	Template.titik.onRendered ->
+		$('select').material_select()
 		L.Icon.Default.imagePath = '/packages/bevanhunt_leaflet/images/'
 		topo = L.tileLayer.provider 'OpenTopoMap'
 		style = color: 'white', weight: 2
@@ -43,10 +44,17 @@ if Meteor.isClient
 
 	Template.titik.helpers
 		heads: -> _.keys schema[currentPar 'type']
-		rows: -> coll.titik.find().fetch()
+		rows: -> _.filter coll.titik.find().fetch(), (i) ->
+			filter = Session.get 'filter'
+			a = -> i.bentuk is filter.bentuk
+			b = -> i.kondisi is filter.kondisi
+			if filter then a() or b() else true
 		formType: -> if (currentPar 'id') then 'update' else 'insert'
 		schema: -> new SimpleSchema schema[currentPar 'type']
 		showForm: -> Session.get 'showForm'
+		filter: (type) ->
+			uniq = _.uniqBy coll.titik.find().fetch(), type
+			_.map uniq, (i) -> i[type]
 
 	Template.titik.events
 		'click #add': ->
@@ -59,3 +67,7 @@ if Meteor.isClient
 				message: 'Yakin hapus data ini?'
 			new Confirmation dialog, (ok) -> if ok
 				Meteor.call 'remove', 'titik', doc._id
+		'change select': (event) ->
+			obj = {}
+			obj[event.target.id] = event.target.value
+			Session.set 'filter', _.assign Session.get('filter') or {}, obj
