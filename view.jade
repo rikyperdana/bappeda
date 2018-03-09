@@ -48,7 +48,7 @@ template(name='titik')
 							th Hapus
 				tbody
 					each i in rows
-						tr
+						tr#update(data=i._id)
 							each j in heads
 								td {{startCase (prop i j)}}
 							if currentUser

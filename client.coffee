@@ -52,6 +52,7 @@ if Meteor.isClient
 			b = -> i.kondisi is filter.kondisi
 			if filter then a() and b() else true
 		formType: -> if (currentPar 'id') then 'update' else 'insert'
+		doc: -> coll[currentRoute()].findOne()
 		schema: -> new SimpleSchema schema[currentPar 'type']
 		showForm: -> Session.get 'showForm'
 		filter: (type) ->
@@ -70,6 +71,10 @@ if Meteor.isClient
 			new Confirmation dialog, (ok) -> if ok
 				Meteor.call 'remove', 'titik', doc._id
 		'dblclick #update': (event) ->
+			data = event.currentTarget.attributes.data.nodeValue
+			Router.go currentRoute(),
+				type: currentPar 'type'
+				id: data
 			Session.set 'showForm', true
 		'change select': (event) ->
 			obj = {}; obj[event.target.id] = event.target.value

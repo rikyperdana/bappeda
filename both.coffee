@@ -18,7 +18,7 @@ _.map ['titik', 'area', 'kurva'], (i) ->
 	arr = ['insert', 'update', 'remove']
 	coll[i].allow _.zipObject arr, _.map arr, (i) -> -> true
 
-Router.route '/titik/:type',
+Router.route '/titik/:type/:id?',
 	name: 'titik'
 	action: -> this.render 'titik'
 	waitOn: -> if Meteor.isClient
