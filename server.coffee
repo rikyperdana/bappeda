@@ -8,3 +8,5 @@ if Meteor.isServer
 			coll[name].remove id
 		import: (name, selector, modifier) ->
 			coll[name].upsert selector, $set: modifier
+		update: (name, doc) ->
+			coll[name].update doc._id, doc

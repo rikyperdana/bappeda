@@ -1,8 +1,13 @@
 if Meteor.isClient
 
-	Template.registerHelper 'startCase', (val) -> _.startCase val
-	Template.registerHelper 'coll', -> coll
-	Template.registerHelper 'prop', (obj, prop) -> obj[prop]
+
+	globalHelpers = [
+		['startCase', (val) -> _.startCase val]
+		['coll', -> coll]
+		['prop', (obj, prop) -> obj[prop]]
+	]
+
+	_.map globalHelpers, (i) -> Template.registerHelper i...
 
 	Template.menu.helpers
 		menus: -> _.keys fasilitas
@@ -79,6 +84,14 @@ if Meteor.isClient
 		'change select': (event) ->
 			obj = {}; obj[event.target.id] = event.target.value
 			Session.set 'filter', _.assign Session.get('filter') or {}, obj
+		'click #geocode': ->
+			_.map (_.shuffle coll.titik.find().fetch()), (i) ->
+				geocode.getLocation i.alamat + ' Riau', (location) ->
+					res = location.results
+					if res
+						i.latlng = res[0]?.geometry.location
+						i.alamat = res[0]?.formatted_address
+						Meteor.call 'update', 'titik', i
 
 	Template.login.events
 		'submit form': (event) ->
