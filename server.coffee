@@ -6,3 +6,5 @@ if Meteor.isServer
 	Meteor.methods
 		remove: (name, id) ->
 			coll[name].remove id
+		import: (name, selector, modifier) ->
+			coll[name].upsert selector, $set: modifier

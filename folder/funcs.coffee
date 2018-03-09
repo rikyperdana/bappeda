@@ -1,5 +1,5 @@
 if Meteor.isClient
 
-	@currentRoute = -> _.lowerCase Router.current().route.path()
+	@currentRoute = -> Router.current().route.getName()
 	@currentPar = (name) -> Router.current().params[name]
 	AutoForm.setDefaultTemplate 'materialize'

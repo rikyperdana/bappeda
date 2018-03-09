@@ -63,6 +63,7 @@ template(name='titik')
 				id = 'formTitik'
 				doc = doc
 			)
+		+import
 
 template(name='login'): .container
 	h5 Login Bappeda
@@ -71,3 +72,13 @@ template(name='login'): .container
 		input.white-text(name='password' placeholder='Password' type='password')
 		input.btn(type='submit' value='Masuk')
 
+template(name='import')
+	.file-field.input-field
+		.btn.left
+			span Impor Data
+			input(type='file' name='upload')
+		.file-path-wrapper
+			input.file-path.wrapper(type='text')
+
+template(name='loading'): .container
+	.progress.center: .indeterminate

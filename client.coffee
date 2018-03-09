@@ -69,6 +69,8 @@ if Meteor.isClient
 				message: 'Yakin hapus data ini?'
 			new Confirmation dialog, (ok) -> if ok
 				Meteor.call 'remove', 'titik', doc._id
+		'dblclick #update': (event) ->
+			Session.set 'showForm', true
 		'change select': (event) ->
 			obj = {}; obj[event.target.id] = event.target.value
 			Session.set 'filter', _.assign Session.get('filter') or {}, obj
@@ -78,4 +80,14 @@ if Meteor.isClient
 			event.preventDefault()
 			creds = _.map ['username', 'password'], (i) -> event.target[i].value
 			Meteor.loginWithPassword creds..., (err) ->
-				unless err then Router.go '/'
+				Router.go '/' unless err
+
+	Template.import.events
+		'change :file': (event, template) ->
+			Papa.parse event.target.files[0],
+				header: true
+				step: (result) ->
+					data = result.data[0]
+					selector = nama: data.nama, kelompok: currentPar 'type'
+					modifier = _.omit data, ['nama', 'kelompok']
+					Meteor.call 'import', currentRoute(), selector, modifier
