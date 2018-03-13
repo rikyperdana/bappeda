@@ -17,7 +17,7 @@ template(name='menu')
 	ul.fixed.side-nav
 		li.grey.lighten-2: a Pilihan Urusan
 		each val in menus
-			li: a(href='/titik/{{val}}')= startCase(val)
+			li: a(href='/titik/{{val}}/1')= startCase(val)
 
 template(name='home')
 	h5 Beranda
@@ -70,8 +70,8 @@ template(name='titik')
 template(name='login'): .container
 	h5 Login Bappeda
 	form
-		input.white-text(name='username' placeholder='Username')
-		input.white-text(name='password' placeholder='Password' type='password')
+		input(name='username' placeholder='Username')
+		input(name='password' placeholder='Password' type='password')
 		input.btn(type='submit' value='Masuk')
 
 template(name='import')

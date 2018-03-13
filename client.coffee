@@ -55,7 +55,7 @@ if Meteor.isClient
 			b = -> i.kondisi is filter.kondisi
 			if filter then a() and b() else true
 		formType: -> if (currentPar 'id') then 'update' else 'insert'
-		doc: -> coll[currentRoute()].findOne()
+		doc: -> coll[currentRoute()].findOne _id: currentPar 'id'
 		schema: -> new SimpleSchema schema[currentPar 'type']
 		showForm: -> Session.get 'showForm'
 		filter: (type) ->
@@ -65,7 +65,7 @@ if Meteor.isClient
 	Template.titik.events
 		'click #add': ->
 			Session.set 'showForm', not Session.get 'showForm'
-		'dblclick #remove': (event) ->
+		'click #remove': (event) ->
 			data = event.currentTarget.attributes.data.nodeValue
 			doc = coll.titik.findOne _id: data
 			dialog =
@@ -73,11 +73,11 @@ if Meteor.isClient
 				message: 'Yakin hapus data ini?'
 			new Confirmation dialog, (ok) -> if ok
 				Meteor.call 'remove', 'titik', doc._id
-		'dblclick #update': (event) ->
+		'dblclick #update': (event) -> if Meteor.userId()
 			data = event.currentTarget.attributes.data.nodeValue
-			Router.go currentRoute(),
-				type: currentPar 'type'
-				id: data
+			Router.go currentRoute(), page: 1, id: data, type: currentPar 'type'
+			opt = limit: 1; sel = _id: currentPar 'id'
+			Meteor.subscribe 'coll', 'titik', sel, opt
 			Session.set 'showForm', true
 		'change select': (event) ->
 			obj = {}; obj[event.target.id] = event.target.value
