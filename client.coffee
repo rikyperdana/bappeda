@@ -1,12 +1,10 @@
 if Meteor.isClient
 
-
 	globalHelpers = [
 		['startCase', (val) -> _.startCase val]
 		['coll', -> coll]
 		['prop', (obj, prop) -> obj[prop]]
 	]
-
 	_.map globalHelpers, (i) -> Template.registerHelper i...
 
 	Template.menu.helpers
@@ -15,7 +13,7 @@ if Meteor.isClient
 	Template.menu.events
 		'click #logout': -> Meteor.logout()
 
-	Template.titik.onRendered ->
+	Template.titik.onRendered -> Meteor.call 'latlngs', currentPar('type'), (err, res) -> if res
 		$('select').material_select()
 		L.Icon.Default.imagePath = '/packages/bevanhunt_leaflet/images/'
 		topo = L.tileLayer.provider 'OpenTopoMap'
@@ -24,7 +22,7 @@ if Meteor.isClient
 			layer.bindPopup 'Kab: ' + _.startCase feature.properties.wil
 		riau = L.geoJson.ajax '/maps/riau.geojson',
 			style: style, onEachFeature: onEachFeature
-		source = _.filter coll.titik.find().fetch(), (i) -> i.latlng
+		source = _.filter res, (i) -> i.latlng
 		select = (type) -> _.map (_.uniqBy source, type), (i) -> i[type]
 		categories = [select('bentuk')..., select('kondisi')...]
 		titles = _.map categories, (i) -> _.startCase i
@@ -109,3 +107,16 @@ if Meteor.isClient
 					selector = nama: data.nama, kelompok: currentPar 'type'
 					modifier = _.omit data, ['nama', 'kelompok']
 					Meteor.call 'import', currentRoute(), selector, modifier
+
+	Template.pagination.onRendered ->
+		Meteor.call 'length', currentRoute(), currentPar('type'), (err, res) ->
+			Session.set 'pagins', [1..(res - (res % 100)) / 100]
+	
+	Template.pagination.helpers
+		pagins: -> Session.get 'pagins'
+
+	Template.pagination.events
+		'click #num': (event) ->
+			Router.go currentRoute(),
+				type: currentPar 'type'
+				page: parseInt event.currentTarget.text

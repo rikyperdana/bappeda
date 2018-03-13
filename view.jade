@@ -63,6 +63,7 @@ template(name='titik')
 				id = 'formTitik'
 				doc = doc
 			)
+		+pagination
 		.btn#geocode Geocode
 		+import
 
@@ -83,3 +84,8 @@ template(name='import')
 
 template(name='loading'): .container
 	.progress.center: .indeterminate
+
+template(name='pagination')
+	ul.pagination.center
+		each val in pagins
+			li: a#num= val

@@ -18,12 +18,13 @@ _.map ['titik', 'area', 'kurva'], (i) ->
 	arr = ['insert', 'update', 'remove']
 	coll[i].allow _.zipObject arr, _.map arr, (i) -> -> true
 
-Router.route '/titik/:type/:id?',
+Router.route '/titik/:type/:page?/:id?',
 	name: 'titik'
 	action: -> this.render 'titik'
 	waitOn: -> if Meteor.isClient
 		sel = kelompok: currentPar 'type'
-		Meteor.subscribe 'coll', 'titik', sel, {}
+		opt = limit: 100, skip: 100 * (this.params.page or 1)
+		Meteor.subscribe 'coll', 'titik', sel, opt
 
 _.map ['login'], (i) ->
 	Router.route '/' + i,
