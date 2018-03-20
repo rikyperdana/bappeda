@@ -75,7 +75,7 @@ if Meteor.isClient
 				Meteor.call 'remove', 'titik', doc._id
 		'dblclick #update': (event) -> if Meteor.userId()
 			data = event.currentTarget.attributes.data.nodeValue
-			Router.go currentRoute(), page: 1, id: data, type: currentPar 'type'
+			Router.go currentRoute(), page: 0, id: data, type: currentPar 'type'
 			opt = limit: 1; sel = _id: currentPar 'id'
 			Meteor.subscribe 'coll', 'titik', sel, opt
 			Session.set 'showForm', true
