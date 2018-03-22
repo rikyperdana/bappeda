@@ -9,6 +9,6 @@ if Meteor.isClient
 					res = location.results
 					if res
 						doc.latlng = res[0]?.geometry.location
-						doc.alamat = res[0]?.formatted_address
+						doc.alamat = res[0]?.formatted_address or doc.alamat
 					doc.kelompok = currentPar 'type'
 					self.result doc

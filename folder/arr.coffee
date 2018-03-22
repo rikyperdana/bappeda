@@ -19,4 +19,8 @@ makeOpts = (arr) -> _.map arr, (i) -> value: i, label: _.startCase i
 @selects =
 	pendidikan:
 		bentuk: makeOpts ['sd', 'smp', 'sma', 'smk']
+	kesehatan:
+		bentuk: makeOpts ['rsud prov', 'rsud kab', 'puskesmas', 'pustu']
+	pariwisata:
+		bentuk: makeOpts ['alam', 'buatan', 'religi', 'destinasi']
 	kondisi: makeOpts ['baik', 'rusak ringan', 'rusak sedang', 'rusak berat']

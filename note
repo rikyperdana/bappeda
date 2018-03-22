@@ -1,0 +1,7 @@
+22 Maret 2018
+1. Perbaiki bugs pada update data titik
+2. Khusus untuk pendidikan, tambahkan rincian kondisi ruang kelas yang menerima angka. Dengan skala Rusak Berat, Rusak Sedang, Rusak Ringan, Baik
+3. Field jumlah kelas tidak diperlukan lagi
+4. Hitungkan jarak dari lokasi alamat ke titik tengah kota pekanbaru
+5. Perbaiki bugs pada pilihan bentuk yang dipilih untuk diedit
+6. Perbaiki bugs geocode yang menghilangkan alamat yang tidak ditemukan

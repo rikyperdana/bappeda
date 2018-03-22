@@ -34,7 +34,8 @@ if Meteor.isClient
 		markers = _.zipObject titles, _.map categories, (i) ->
 			filter = _.filter source, (j) -> _.includes [j.bentuk, j.kondisi], i
 			filter and L.layerGroup _.map filter, (j) ->
-				L.marker(j.latlng).bindPopup content j
+				L.marker j.latlng
+				.bindPopup content j
 		allMarkers = L.layerGroup _.map source, (i) ->
 			L.marker(i.latlng).bindPopup content i
 		map = L.map 'peta',
@@ -65,6 +66,10 @@ if Meteor.isClient
 	Template.titik.events
 		'click #add': ->
 			Session.set 'showForm', not Session.get 'showForm'
+		'click #close': ->
+			Session.set 'showForm', null
+			Router.go currentRoute(),
+				page: 0, type: currentPar 'type'
 		'click #remove': (event) ->
 			data = event.currentTarget.attributes.data.nodeValue
 			doc = coll.titik.findOne _id: data
