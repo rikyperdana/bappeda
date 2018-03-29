@@ -13,4 +13,4 @@ if Meteor.isClient
 					distance = geolib.getDistance start,
 						latitude: res?[0]?geometry.location.lat
 						longitude: res?[0]?geometry.location.lng
-					Math.round distance/1000
+					Math.round(distance/1000) + ' Km'

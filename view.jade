@@ -15,7 +15,7 @@ template(name='menu')
 				li: a= currentUser.username
 				li: a#logout Logout
 	ul.fixed.side-nav
-		li.grey.lighten-2: a Pilihan Urusan
+		li.grey.lighten-2: a: b Pilihan Urusan
 		each val in menus
 			li: a(href='/titik/{{val}}/0')= startCase(val)
 

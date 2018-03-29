@@ -4,7 +4,6 @@ if Meteor.isClient
 		startCase: (val) -> _.startCase val
 		coll: -> coll
 		prop: (obj, prop) -> obj[prop]
-
 	_.map globalHelpers, (val, key) -> Template.registerHelper key, val
 
 	Template.menu.helpers obj =
@@ -27,10 +26,10 @@ if Meteor.isClient
 		categories = [...select(\bentuk), ...select(\kondisi)]
 		titles = _.map categories, -> _.startCase it
 		content = (obj) ->
-			string = ''
-			for key, val of _.pick obj, fasilitas[currentPar \type]
-				string += "<b>#{_.startCase key}: </b>#{_.startCase val}</br>"
-			string
+			pick = _.pick obj, fasilitas[currentPar \type]
+			arr = _.map pick, (val, key) ->
+				"<b>#{_.startCase key}: </b>#{_.startCase val}</br>"
+			_.join arr, ''
 		markers = _.zipObject titles, _.map categories, (i) ->
 			filter = _.filter source, (j) -> _.includes [j.bentuk, j.kondisi], i
 			filter and L.layerGroup _.map filter, (j) ->
@@ -50,10 +49,10 @@ if Meteor.isClient
 
 	Template.titik.helpers obj =
 		heads: -> _.keys schema[currentPar \type]
-		rows: -> _.filter coll.titik.find().fetch(), (i) ->
+		rows: -> _.filter coll.titik.find().fetch(), ->
 			filter = Session.get \filter
-			a = -> i.bentuk is filter.bentuk
-			b = -> i.kondisi is filter.kondisi
+			a = -> it.bentuk is filter.bentuk
+			b = -> it.kondisi is filter.kondisi
 			if filter then a() and b() else true
 		formType: -> if (currentPar \id) then \update else \insert
 		doc: -> coll[currentRoute()].findOne _id: currentPar \id
