@@ -1,9 +1,9 @@
 if Meteor.isServer
 
-	Meteor.publish 'coll', (name, selector, options) ->
+	Meteor.publish \coll, (name, selector, options) ->
 		coll[name].find selector, options
 
-	Meteor.methods
+	Meteor.methods obj =
 		remove: (name, id) ->
 			coll[name].remove id
 		import: (name, selector, modifier) ->

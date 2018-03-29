@@ -1,6 +1,6 @@
 defaults = ['nama', 'alamat', 'bentuk', 'kondisi']
 @fasilitas =
-	pendidikan: ['jumlah siswa', 'jumlah guru', 'jumlah kelas']
+	pendidikan: ['baik', 'rusak ringan', 'rusak sedang', 'rusak berat', 'jumlah siswa', 'jumlah guru']
 	pariwisata: ['jumlah kunjungan', 'jarak pekanbaru']
 	kesehatan: ['jumlah pasien', 'jumlah dokter', 'jumlah kapasitas']
 	industri: ['jumlah produksi']
