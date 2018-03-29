@@ -7,7 +7,7 @@ Router.route \/,
 
 @coll = {}; @schema = {}
 
-_.map (_.keys fasilitas), (i) ->
+_.map fasilitas, (val, i) ->
 	schema[i] = {}; _.map fasilitas[i], (j) ->
 		schema[i][j] = type: String, optional: true
 		schema[i].bentuk = type: String, autoform:
@@ -28,6 +28,6 @@ Router.route '/titik/:type/:page/:id?',
 		opt = limit: 100, skip: 100 * this.params.page
 		Meteor.subscribe \coll, \titik, sel, opt
 
-_.map <[ login ]>, ->
-	Router.route '/' + it,
-		action: -> this.render it
+_.map [\login], (i) ->
+	Router.route \/ + i,
+		action: -> this.render i
