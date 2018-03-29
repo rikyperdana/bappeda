@@ -1,7 +1,7 @@
 if Meteor.isClient
 
 	globalHelpers =
-		startCase: (val) -> _.startCase val
+		startCase: -> _.startCase it
 		coll: -> coll
 		prop: (obj, prop) -> obj[prop]
 	_.map globalHelpers, (val, key) -> Template.registerHelper key, val
@@ -36,7 +36,7 @@ if Meteor.isClient
 				L.marker j.latlng
 				.bindPopup content j
 		allMarkers = L.layerGroup _.map source, ->
-			L.marker(it.latlng).bindPopup content it
+			L.marker it.latlng .bindPopup content it
 		map = L.map \peta,
 			center: [0.5, 101]
 			zoom: 8
@@ -45,7 +45,7 @@ if Meteor.isClient
 			layers: [topo, riau, allMarkers]
 		baseMaps = Topo: topo, Esri: L.tileLayer.provider 'Esri.WorldImagery'
 		overLays = _.assign markers, Semua: allMarkers
-		L.control.layers(baseMaps, overLays, collapsed: false).addTo map
+		L.control.layers baseMaps, overLays, collapsed: false .addTo map
 
 	Template.titik.helpers obj =
 		heads: -> _.keys schema[currentPar \type]
@@ -54,7 +54,7 @@ if Meteor.isClient
 			a = -> it.bentuk is filter.bentuk
 			b = -> it.kondisi is filter.kondisi
 			if filter then a() and b() else true
-		formType: -> if (currentPar \id) then \update else \insert
+		formType: -> if currentPar \id then \update else \insert
 		doc: -> coll[currentRoute()].findOne _id: currentPar \id
 		schema: -> new SimpleSchema schema[currentPar \type]
 		showForm: -> Session.get \showForm
@@ -87,13 +87,8 @@ if Meteor.isClient
 			obj = {}; obj[event.target.id] = event.target.value
 			Session.set \filter, _.assign obj, Session.get(\filter) or {}
 		'click #geocode': ->
-			_.map (_.shuffle coll.titik.find().fetch()), ->
-				geocode.getLocation it.alamat + ' Riau', (location) ->
-					res = location.results
-					if res
-						it.latlng = res[0]?.geometry.location
-						it.alamat = res[0]?.formatted_address
-						Meteor.call \update, \titik, it
+			_.map coll.titik.find().fetch(), (doc) -> modForm doc, (res) ->
+				res and Meteor.call \update, \titik, doc
 
 	Template.login.events obj =
 		'submit form': (event) ->
@@ -104,13 +99,12 @@ if Meteor.isClient
 
 	Template.import.events obj =
 		'change :file': (event, template) ->
-			Papa.parse event.target.files[0],
+			Papa.parse event.target.files.0,
 				header: true
 				step: (result) ->
-					data = result.data[0]
+					data = result.data.0
 					selector = nama: data.nama, kelompok: currentPar \type
-					modifier = _.omit data, <[ nama kelompok ]>
-					Meteor.call \import, currentRoute(), selector, modifier
+					Meteor.call \import, currentRoute(), selector, data
 
 	Template.pagination.onRendered ->
 		Meteor.call \length, currentRoute(), currentPar(\type), (err, res) ->
