@@ -41,3 +41,4 @@ herrhelms:meteor-leaflet-locatecontrol
 planettraining:material-design-icons-font
 izzilab:shelljs
 materialize:materialize@=0.97.6
+outatime:geolib

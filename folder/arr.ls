@@ -1,4 +1,4 @@
-defaults = ['nama', 'alamat', 'bentuk', 'kondisi']
+defaults = <[ nama alamat bentuk kondisi ]>
 @fasilitas =
 	pendidikan: ['baik', 'rusak ringan', 'rusak sedang', 'rusak berat', 'jumlah siswa', 'jumlah guru']
 	pariwisata: ['jumlah kunjungan', 'jarak pekanbaru']
@@ -11,16 +11,16 @@ defaults = ['nama', 'alamat', 'bentuk', 'kondisi']
 	kebudayaan: ['jumlah kegiatan']
 	agama: ['jumlah kegiatan']
 
-_.map (_.keys fasilitas), (i) ->
-	fasilitas[i] = [defaults..., fasilitas[i]...]
+_.map (_.keys fasilitas), ->
+	fasilitas[it] = [...defaults, ...fasilitas[it]]
 
-makeOpts = (arr) -> _.map arr, (i) -> value: i, label: _.startCase i
+makeOpts = (arr) -> _.map arr, -> value: it, label: _.startCase it
 
 @selects =
 	pendidikan:
-		bentuk: makeOpts ['sd', 'smp', 'sma', 'smk']
+		bentuk: makeOpts <[ sd smp sma smk ]>
 	kesehatan:
 		bentuk: makeOpts ['rsud prov', 'rsud kab', 'puskesmas', 'pustu']
 	pariwisata:
-		bentuk: makeOpts ['alam', 'buatan', 'religi', 'destinasi']
+		bentuk: makeOpts <[ alam buatan religi destinasi ]>
 	kondisi: makeOpts ['baik', 'rusak ringan', 'rusak sedang', 'rusak berat']
