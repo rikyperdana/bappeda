@@ -48,7 +48,7 @@ if Meteor.isClient
 
 	Template.titik.helpers do
 		heads: -> _.keys schema[currentPar \type]
-		rows: -> _.filter coll.titik.find!.fetch!, (i) ->
+		rows: -> _.filter coll.titik.find!fetch!, (i) ->
 			filter = Session.get \filter
 			if 2selected is _.size filter
 				a = -> i.bentuk is filter.bentuk
@@ -56,11 +56,11 @@ if Meteor.isClient
 				a! and b!
 			else true
 		formType: -> if currentPar \id then \update else \insert
-		doc: -> coll[currentRoute!].findOne _id: currentPar \id
+		doc: -> coll[currentRoute!]findOne _id: currentPar \id
 		schema: -> new SimpleSchema schema[currentPar \type]
 		showForm: -> Session.get \showForm
 		filter: (type) ->
-			uniq = _.uniqBy coll.titik.find!.fetch!, type
+			uniq = _.uniqBy coll.titik.find!fetch!, type
 			_.map uniq, -> it[type]
 
 	Template.titik.events do
@@ -88,13 +88,13 @@ if Meteor.isClient
 			obj = {}; obj[event.target.id] = event.target.value
 			Session.set \filter, _.assign obj, Session.get \filter or {}
 		'click #geocode': ->
-			_.map coll.titik.find!.fetch!, (doc) -> modForm doc, (res) ->
+			_.map coll.titik.find!fetch!, (doc) -> modForm doc, (res) ->
 				res and Meteor.call \update, \titik, doc
 
 	Template.login.events do
 		'submit form': (event) ->
 			event.preventDefault!
-			creds = _.map <[ username password ]>, -> event.target[it].value
+			creds = _.map <[ username password ]>, -> event.target[it]value
 			Meteor.loginWithPassword ...creds, (err) ->
 				Router.go \/ unless err
 

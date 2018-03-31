@@ -1,7 +1,7 @@
 if Meteor.isServer
 
 	Meteor.publish \coll, (name, selector, options) ->
-		coll[name].find selector, options
+		coll[name]find selector, options
 
 	Meteor.methods obj =
 		remove: (name, id) ->
@@ -11,7 +11,7 @@ if Meteor.isServer
 		update: (name, doc) ->
 			coll[name].update doc._id, doc
 		length: (name, grup) ->
-			coll[name].find kelompok: grup .fetch!.length
+			coll[name].find kelompok: grup .fetch!length
 		latlngs: (grup) ->
 			sel = kelompok: grup, latlng: $exists: true
 			coll.titik.find sel .fetch!

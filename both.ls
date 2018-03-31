@@ -10,15 +10,15 @@ Router.route \/,
 _.map fasilitas, (val, i) ->
 	schema[i] = {}; _.map fasilitas[i], (j) ->
 		schema[i][j] = type: String, optional: true
-		schema[i].bentuk = type: String, autoform:
-			options: selects[i]?.bentuk
+		schema[i]bentuk = type: String, autoform:
+			options: selects[i]?bentuk
 			afFieldInput: class: \bentuk
-		schema[i].kondisi = type: String, autoform: options: selects.kondisi
+		schema[i]kondisi = type: String, autoform: options: selects.kondisi
 
 _.map <[ titik area kurva ]>, ->
 	coll[it] = new Meteor.Collection it
 	arr = <[ insert update remove ]>
-	coll[it].allow _.zipObject arr, _.map arr, -> -> true
+	coll[it]allow _.zipObject arr, _.map arr, -> -> true
 
 Router.route '/titik/:type/:page/:id?',
 	name: \titik
