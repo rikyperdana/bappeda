@@ -1,4 +1,4 @@
-Router.configure obj =
+Router.configure do
 	layoutTemplate: \layout
 	loadingTemplate: \loading
 
