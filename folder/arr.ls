@@ -11,8 +11,8 @@ defaults = <[ nama alamat bentuk kondisi ]>
 	kebudayaan: ['jumlah kegiatan']
 	agama: ['jumlah kegiatan']
 
-_.map (_.keys fasilitas), ->
-	fasilitas[it] = [...defaults, ...fasilitas[it]]
+_.map fasilitas, (val, key) ->
+	fasilitas[key] = [...defaults, ...fasilitas[key]]
 
 makeOpts = (arr) -> _.map arr, -> value: it, label: _.startCase it
 

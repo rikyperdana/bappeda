@@ -81,11 +81,12 @@ if Meteor.isClient
 		'dblclick #update': (event) -> if Meteor.userId!
 			data = event.currentTarget.attributes.data.nodeValue
 			Router.go currentRoute!, page: 0, id: data, type: currentPar \type
-			opt = limit: 1; sel = _id: currentPar \id
-			Meteor.subscribe \coll, \titik, sel, opt
+			_.map <[ bentuk kondisi ]>, ->
+				$ "select.#it" .val coll.titik.findOne _id: currentPar \id
+				$ 'select' .material_select!
 			Session.set \showForm, true
 		'change select': (event) ->
-			obj = {}; obj[event.target.id] = event.target.value
+			obj = "#{event.target.id}": event.target.value
 			Session.set \filter, _.assign obj, Session.get \filter or {}
 		'click #geocode': ->
 			_.map coll.titik.find!fetch!, (doc) -> modForm doc, (res) ->
