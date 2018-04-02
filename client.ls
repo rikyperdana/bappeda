@@ -81,9 +81,6 @@ if Meteor.isClient
 		'dblclick #update': (event) -> if Meteor.userId!
 			data = event.currentTarget.attributes.data.nodeValue
 			Router.go currentRoute!, page: 0, id: data, type: currentPar \type
-			_.map <[ bentuk kondisi ]>, ->
-				$ "select.#it" .val coll.titik.findOne _id: currentPar \id
-				$ 'select' .material_select!
 			Session.set \showForm, true
 		'change select': (event) ->
 			obj = "#{event.target.id}": event.target.value

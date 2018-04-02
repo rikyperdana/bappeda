@@ -7,6 +7,8 @@ if Meteor.isServer
 		remove: (name, id) ->
 			coll[name].remove id
 		import: (name, selector, modifier) ->
+			_.map modifier, (val, key) ->
+				modifier[key] = _.lowerCase val
 			coll[name].upsert selector, $set: modifier
 		update: (name, doc) ->
 			coll[name].update doc._id, doc
