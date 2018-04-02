@@ -102,6 +102,7 @@ if Meteor.isClient
 				header: true
 				step: (result) ->
 					data = result.data.0
+					_.map data, (val, key) -> data[key] = _.lowerCase val
 					selector = nama: data.nama, kelompok: currentPar \type
 					Meteor.call \import, currentRoute!, selector, data
 
