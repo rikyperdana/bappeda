@@ -1,7 +1,13 @@
 22 Maret 2018
-none 1. Perbaiki bugs pada update data titik
+oke 1. Perbaiki bugs pada update data titik
 oke 2. Khusus untuk pendidikan, tambahkan rincian kondisi ruang kelas yang menerima angka. Dengan skala Rusak Berat, Rusak Sedang, Rusak Ringan, Baik
 oke 3. Field jumlah kelas tidak diperlukan lagi
-4. Hitungkan jarak dari lokasi alamat ke titik tengah kota pekanbaru
-5. Perbaiki bugs pada pilihan bentuk yang dipilih untuk diedit
+oke 4. Hitungkan jarak dari lokasi alamat ke titik tengah kota pekanbaru
+oke 5. Perbaiki bugs pada pilihan bentuk yang dipilih untuk diedit
 oke 6. Perbaiki bugs geocode yang menghilangkan alamat yang tidak ditemukan
+
+3 April 2018
+1. Tambahkan kolom Kab & Kec pada pendidikan
+2. Import excel data lokasi pariwisata
+3. Pilihan bentuk pariwisata tambahkan Sejarah, Belanja, Budaya, Minat Khusus, Bahari, Ziarah, IPTEK, Rekreasi, Olah Raga, Tirta
+4. Jarak destinasi ke kota pekanbaru, gunakan data yang ada, bila tak tersedia, komputer hitungkan
